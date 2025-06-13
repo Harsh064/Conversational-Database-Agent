@@ -18,7 +18,10 @@ Chat with your **MongoDB** database using **natural language queries**!
 - 🤖 Agent-based architecture using `LangChain`
 - 📚 Sample question dataset for guided queries
 - 🔎 Tools for structured DB retrieval: get customer tiers, accounts, transactions, etc.
-
+- Handle `Multiple database operations`in one
+conversation
+- `Error Handling` for ambiguous/ impossible
+queries
 ---
 
 
