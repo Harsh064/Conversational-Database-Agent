@@ -21,32 +21,6 @@ Chat with your **MongoDB** database using **natural language queries**!
 
 ---
 
-## 📁 Project Structure
-
-```
-├── app.py                      # Streamlit frontend app
-├── main.py                     # Core agent logic and tools
-├── .env                        # MongoDB URI and credentials
-├── requirements.txt            # Python dependencies
-├── sample_questions.json       # Pre-defined sample questions for few shot learning
-├── README.md                   # Project documentation (you are here)
-```
-
----
-
-## 🧰 Tools & Technologies
-
-| Tool/Library           | Purpose                                |
-|------------------------|----------------------------------------|
-| `streamlit`            | UI framework for chat interface        |
-| `langchain`            | LLM orchestration & agent framework    |
-| `faiss-cpu`            | Vector search for intent similarity    |
-| `pymongo`              | MongoDB connectivity                   |
-| `google-generativeai` | LLM backend (e.g., Gemini)             |
-| `langchain-community` | Integrations and utility tools         |
-| `dotenv`               | Manage secrets and env variables       |
-
----
 
 ## ⚙️ Setup Instructions
 
@@ -86,6 +60,98 @@ streamlit run app.py
 The app will open in your browser at `http://localhost:8501`.
 
 ---
+# 🧠 Conversational Database Agent - Architecture
+
+- The system allows users to query a MongoDB database using natural language, powered by LangChain Agent, Google Generative AI Chat Model, and Streamlit for an interactive UI.
+
+---
+
+## 📌 High-Level Overview
+
+
+---
+
+## 🧱 Components
+
+### 1. Streamlit Frontend (`app.py`)
+- Provides a chat-based user interface.
+- Displays both user queries and agent responses.
+- Handles session management and chat history.
+
+### 2. LangChain Agent (`main.py`)
+- Central logic for handling natural language input.
+- Uses LangChain tools and memory for interactive querying.
+- Integrates a custom toolset for MongoDB operations.
+
+### 3. Tools
+Functions registered with the LangChain agent to perform specific DB operations:
+- `get_customer_tiers`
+- `get_customers_with_email_domain`
+- `get_accounts_for_username`
+- And many more defined in `main.py`.
+
+### 4. FAISS Vectorstore
+- Performs similarity search to identify user intent.
+- Matches user input with stored intents from `sample_questions.json`.
+
+### 5. MongoDB Database
+- Primary data source (MongoDB Atlas or local).
+- Collections: `customers`, `accounts`, `transactions`.
+
+---
+
+## 🔁 Data Flow
+<div style="text-align: center;">
+    <img src="Data_Flow_Diagram.png" alt="Data Flow Diagram" style="width: 75%; max-width: 800px;">
+</div>
+
+1. **User enters natural language query in Streamlit chat.**
+2. **app.py** sends the query to the agent (`agent.run(user_input)`).
+3. **Vectorstore** checks the query against `sample_questions.json` for intent matching using FAISS.
+4. **LangChain Agent**:
+   - Determines the best matching tool or route.
+   - Executes the appropriate function (Tool).
+5. **Tool executes MongoDB query** using `pymongo`.
+6. **Extracted data** from databse analyzed by Agent and outputs structured response for user query in natural language.
+6. **Response** is returned from Agent → Streamlit.
+7. **User sees the assistant's response** in the chat.
+
+---
+
+## 🧠 Technologies Used
+
+| Component            | Technology              |
+|---------------------|-------------------------|
+| UI                  | Streamlit               |
+| LLM Integration     | LangChain + Google GenAI|
+| Vector Database     | FAISS                   |
+| Backend Logic       | Python + LangChain Tools|
+| Database            | MongoDB (via PyMongo)   |
+
+---
+
+## 🗂 Directory Structure
+
+```
+├── app.py                      # Streamlit frontend app
+├── main.py                     # Core agent logic and tools
+├── .env                        # MongoDB URI KEY and LLM API KEY
+├── requirements.txt            # Python dependencies
+├── sample_questions.json       # Pre-defined sample questions for few shot learning
+├── README.md                   # Project documentation (you are here)
+```
+
+---
+
+## 🔐 Environment Variables
+
+Stored in a `.env` file:
+
+- MONGO_URI=your_mongodb_connection_string
+- GOOGLE_API_KEY=your_google_genai_api_key
+
+
+---
 
 ## 💡 Sample Questions
 
@@ -96,35 +162,3 @@ Sample questions are loaded from `sample_questions.json` to help agent to analyz
 - "Retrieve all customers with '@gmail.com' email."
 
 ---
-
-## 🧠 Example Tool Usage
-
-```python
-Tool(
-    name="GetCustomersWithEmailDomain",
-    func=lambda x: str(get_customers_with_email_domain(x)),
-    description="List customers with a specific email domain"
-)
-```
-
-This tool retrieves customers by email domain using a MongoDB projection like:
-
-```python
-db.customers.find(
-    {"email": {"$regex": "@gmail.com$"}},
-    {"username": 1, "email": 1, "_id": 0}
-)
-```
-
----
-
-## 📌 Notes
-
-- All MongoDB functions should follow the projection pattern:
-  - `1` to **include** a field
-  - `0` to **exclude** a field like `_id`
-- Uses FAISS for top-`k` semantic search over intents
-
----
-
-

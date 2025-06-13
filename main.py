@@ -47,6 +47,11 @@ def get_definition(entity):
 
     return definitions.get(entity.lower(), "No definition found.")
 
+
+# All MongoDB functions follow the projection pattern:
+# 1 to include a field
+# 0 to exclude a field like _id
+
 #functions for accounts section :-
 
 def get_account_limit(account_id: int) -> int:
@@ -72,7 +77,6 @@ def get_high_limit_accounts(threshold: int = 100000) -> List[Dict[str, Any]]:
 def list_all_account_ids() -> List[int]:
     """Return a list of all account IDs in the system."""
     return [doc["account_id"] for doc in db.accounts.find({}, {"account_id": 1})]
-
 
 
 # --- Customers Collection Tools ---
