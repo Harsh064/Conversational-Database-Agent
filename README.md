@@ -162,6 +162,6 @@ Sample questions are loaded from `sample_questions.json` to help agent to analyz
 
 - "Show me transactions greater than 1000 for account 328304."
 - "List customer tiers and their benefits."
-- "Retrieve all customers with '@gmail.com' email."
+- "Retrieve all customers with 'xyz@gmail.com' email."
 
 ---
