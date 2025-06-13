@@ -1,0 +1,10 @@
+langchain
+pymongo
+python-dotenv
+streamlit 
+google-generativeai 
+faiss-cpu 
+langgraph
+langchain-community
+langchain-google-genai
+
