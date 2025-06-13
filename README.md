@@ -100,7 +100,7 @@ Functions registered with the LangChain agent to perform specific DB operations:
 ### 5. MongoDB Database
 - Primary data source (MongoDB Atlas or local).
 - Collections: `customers`, `accounts`, `transactions`.
-
+- Link for dataset - https://www.mongodb.com/docs/atlas/sample-data/sample-analytics/
 ---
 
 ## 🔁 Data Flow
