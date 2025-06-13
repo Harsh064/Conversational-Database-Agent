@@ -8,6 +8,8 @@ Chat with your **MongoDB** database using **natural language queries**!
 
     - Use Agenetic Reasoning to returns insightful results.
 
+    - Loom Video to show working model - https://www.loom.com/share/8565bcc353994287a404885fcaf1db5b?sid=b8845cfc-d1fc-4a04-8c5e-c948cec09dad
+
 ---
 
 ## 🚀 Features
